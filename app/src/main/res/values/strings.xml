@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">DB_43431_44549</string>
+    <string name="shopping_cart">Shopping list</string>
+    <string name="all_products">All products</string>
+    <string name="products_not_cart">To buy</string>
+    <string name="products_cart">Bought</string>
+    <string name="reboot_database">Reinitialize database</string>
+    <string name="quantity">quantity</string>
+    <string name="quantity_alert_text">Quantity has been changed</string>
+    <string name="quantity_alert_title">Are you sure you want to change the quantity?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+</resources>

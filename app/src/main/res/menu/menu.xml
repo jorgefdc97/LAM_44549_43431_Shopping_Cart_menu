@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="60dp"
+    android:layout_height="30dp">
+    <item
+        android:id="@+id/opcao1"
+        android:title="@string/all_products" />
+
+    <item
+        android:id="@+id/opcao2"
+        android:title="@string/products_not_cart" />
+
+    <item
+        android:id="@+id/opcao3"
+        android:title="@string/products_cart" />
+</menu>
