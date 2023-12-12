@@ -6,8 +6,6 @@ public class Product {
     private int quantity;
     private int bought;
 
-    public static int ID_NUM=0;
-
     public Product(){}
     public Product(String description, int quantity, int bought) {
         this.description = description;
@@ -24,7 +22,6 @@ public class Product {
         this.description=description;
         this.quantity = 0;
         this.bought = 0;
-        id=ID_NUM++;
     }
 
     public int getId() {

@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MyViewHolder extends RecyclerView.ViewHolder{
-    public static TextView descriptionView;
-    public static TextView quantityView;
-    public static CheckBox boughtBox;
+    public TextView descriptionView;
+    public TextView quantityView;
+    public CheckBox boughtBox;
     private String description;
     private String quantity;
     private int bought;
@@ -31,14 +31,13 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
         }else{
             bought = 0;
         }
-        /*
+
         quantityView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
                     Product product = new Product(descriptionView.getText().toString(), Integer.parseInt(quantityView.getText().toString()), bought);
                     MainActivity.db.update_product(product);
-                    Toast.makeText(MainActivity.context, "Quantity changed", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -46,12 +45,16 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
         boughtBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton box, boolean isChecked) {
+                if(isChecked){
+                    Toast.makeText(MainActivity.context, descriptionView.getText().toString() + " has been added to cart", Toast.LENGTH_SHORT).show();
+                    bought = 1;
+                }else{
+                    Toast.makeText(MainActivity.context, descriptionView.getText().toString() + " has been removed from cart", Toast.LENGTH_SHORT).show();
+                    bought = 0;
+                }
                 Product product = new Product(descriptionView.getText().toString(), Integer.parseInt(quantityView.getText().toString()), bought);
                 MainActivity.db.update_product(product);
-                Toast.makeText(MainActivity.context, descriptionView.getText().toString()+" has been added to cart", Toast.LENGTH_LONG).show();
             }
         });
-
-         */
     }
 }

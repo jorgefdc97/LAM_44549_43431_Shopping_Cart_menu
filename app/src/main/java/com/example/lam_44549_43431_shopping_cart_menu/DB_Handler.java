@@ -5,12 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class DB_Handler extends SQLiteOpenHelper{
 
@@ -47,24 +44,11 @@ public class DB_Handler extends SQLiteOpenHelper{
     void add_product(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(ID,product.getId());
         values.put(DESCRIPTION, product.getDescription());
         values.put(QUANTITY, product.getQuantity());
         values.put(BOUGHT, product.getBought());
 
         db.insert(TABLE_NAME, null, values);
-    }
-
-    public Product get_product(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, new String[] { ID, DESCRIPTION, QUANTITY, BOUGHT}, ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-        assert cursor != null;
-        Product product = new Product(cursor.getString(1), Integer.parseInt(cursor.getString(2)),
-                Integer.parseInt(cursor.getString(3)));
-        return product;
     }
 
     public ArrayList<Product> get_all_products() {
@@ -114,11 +98,10 @@ public class DB_Handler extends SQLiteOpenHelper{
 
     public ArrayList<Product> getAllProductsNotInCart() {
         ArrayList<Product> productsList = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BOUGHT + " = 0";
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + BOUGHT + " = 0 AND " + QUANTITY + " > 0";
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
-        Log.e("ENTRADA CURSOR", String.valueOf(cursor.moveToFirst()));
         if (cursor.moveToFirst()) {
             do {
                 Product product = new Product();
@@ -128,11 +111,9 @@ public class DB_Handler extends SQLiteOpenHelper{
                 product.setBought(Integer.parseInt(cursor.getString(3)));
 
                 productsList.add(product);
-                Log.e("PRODUCT CURSOR",product.toString());
             } while (cursor.moveToNext());
         }
         cursor.close();
-        Log.e("PRODUCTS LIST CURSOR",productsList.toString());
         return productsList;
     }
 
@@ -144,25 +125,17 @@ public class DB_Handler extends SQLiteOpenHelper{
         values.put(BOUGHT, product.getBought());
 
         db.update(TABLE_NAME, values, DESCRIPTION + " = ?",
-                new String[]{String.valueOf(product.getId())});
+                new String[]{String.valueOf(product.getDescription())});
     }
 
-    public void delete_product(Product product) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, DESCRIPTION + " = ?",
-                new String[] { String.valueOf(product.getId()) });
-        db.close();
-    }
-
-    public boolean check_database_existance() {
+    public boolean check_database_existence() {
         File dbFile = this.context.getDatabasePath(DATABASE_NAME);
         return dbFile.exists();
     }
     public void deleteDB() {
-        if(check_database_existance()) {
+        if(check_database_existence()) {
             File dbFile = this.context.getDatabasePath(DATABASE_NAME);
             dbFile.delete();
-            Product.ID_NUM=0;
         }
     }
     public void reconstructDB() {
